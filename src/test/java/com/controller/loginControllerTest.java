@@ -22,13 +22,16 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
 class loginControllerTest {
     private MockMvc mockMvc;
-    @Autowired
+    @Mock
     UserDao userDao;
 
     @BeforeEach
@@ -46,6 +49,6 @@ class loginControllerTest {
         MockHttpServletResponse response = result.getResponse();
         Assert.assertEquals(HttpStatus.OK.value(),response.getStatus());
         String expected = "{\"message\":\"登录成功\",\"code\":\"200\"}";
-        JSONAssert.assertEquals(expected,result.getResponse().getContentAsString(),false);
+        JSONAssert.assertEquals(expected,result.getResponse().getContentAsString(StandardCharsets.UTF_8),false);
     }
 }
